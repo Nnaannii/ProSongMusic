@@ -1,0 +1,273 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<WebAppEnitity.Models.Gene> listGene=ViewBag.Gene;
+    }
+
+<div class="row m-4">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                Song Music Project!
+                <button class="btn btn-success btn-sm ml-2" type="button" onclick="addNew()"> <i class="fas fa-pen">ADD NEW SONG</i></button>
+            </div>
+            <div class="card-body">
+
+
+                <table id="main_table" class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Group</th>
+                            <th>Year</th>
+                            <th>Type</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Confirm Modal Begin -->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="confirmModel">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
+                    <input name="transtype" type="hidden" class="form-control" id="transtype">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="closeconfirmModal()" id="modal-btn-si">Si</button>
+                    <button type="button" class="btn btn-dark" onclick="cancelconfirmModal()" id="modal-btn-no">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Confirm Modal End -->
+
+
+    <div class="modal fade" id="idEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post" id="editdata" action="~/Login/UpdateUser">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Song Management</h5>
+                        <button type="button" class="close" onclick="closeModel()" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Name:</label>
+                            <input name="name" type="text" class="form-control" id="name">
+                            <input name="id" type="hidden" class="form-control" id="id">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Group:</label>
+                            <input name="group" id="group" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Year</label>
+                            <input name="year" id="year" class="form-control" id="message-text">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Type:</label>
+                            <select name="gene" id="type" class="form-control">
+                                @if (listGene != null)
+                                {
+                                    for (int i = 0; i < listGene.Count; i++)
+                                    {
+                                        <option value="@listGene[i].Description">@listGene[i].Description</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" onclick="closeModel()" data-dismiss="modal">Close</button>
+                        <button type="button" onclick="confirmEdit()" id="save" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+    <!-- Confirm Modal Begin -->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="deleteModel">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="deleteheader">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Delete This Song? </h4>
+                    <input name="transtype" type="hidden" class="form-control" id="transtype">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="closeconfirmModal()" id="modal-btn-si">Si</button>
+                    <button type="button" class="btn btn-dark" onclick="cancelconfirmModal()" id="modal-btn-no">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Confirm Modal End -->
+
+</div>
+    @section scripts
+{
+        <script>
+         
+            function addNew() {
+                EditpopUp(0);
+                $("#idEdit").modal('show');
+            }
+            function closeconfirmModal() { 
+
+                $("#confirmModel").modal('hide');
+                $("#deleteModel").modal('hide');
+                $("#editdata").unbind('submit').submit();
+            }
+            function cancelconfirmModal() {
+                $("#confirmModel").modal('hide');
+                $("#deleteModel").modal('hide');
+       
+            }
+
+
+            function confirmEdit() {
+                $("#idEdit").modal('hide');
+                $("#confirmModel").modal('show');
+            }
+       
+        var name;
+        var id_user;
+        var lastName;
+
+            function showDataTable() {
+                $('#main_table').val(null);
+             $('#main_table').DataTable({
+                "ajax": {
+                    "url": "@Url.Action("userList", "Login")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "Song_ID" },
+                    { "data": "Title"},
+                    { "data": "Song_Group" },
+                    { "data": "Song_Year" },
+                    { "data": "Gene" },
+                    {
+                        "data": "Song_ID",
+
+                        "render": function (data) {
+
+                            if (data != null) {
+                                $("#name").val(data);
+                            }
+                            return "<button class='btn btn-warning btn-sm' type='button' onclick='EditpopUp(" + data + ")'> <i class='fas fa-pen'>Edit</i></button>" +
+                                "<button class='btn btn-danger btn-sm ml-2' type = 'button' onclick='DeleteSong(" + data + ") '> <i class='fas fa-pen'>Del</i></button > ";
+
+
+                        }
+                    },
+
+                ],
+            });
+        }
+
+        function getUserInfo(iduser) {
+            name        = "";
+            id_user     = "";
+            lastName = "";
+
+
+            }
+            function closeModel() {
+                $("#idEdit").modal('hide');
+            }
+        $(document).ready(function () {
+
+            showDataTable();
+            $("#idEdit").modal('hide');
+            $("#id").val('');
+        });
+
+            function EditpopUp(data) {
+                $("#name").val('');
+                $("#group").val('');
+                $("#year").val('');
+                $("#type").val('');
+            //console.log(data);
+                if (data > 0) {
+
+                    
+                    $("#id").val(data);
+                    jQuery.ajax({
+                        url: "@Url.Action("getSonbyId", "Login")" + "?songId=" + data,
+                        type: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+
+                            //Load Data into popUp
+                            for (var i = 0; i < data.data.length; i++) {
+                                $("#name").val(data.data[i].Title);
+                                $("#group").val(data.data[i].Song_Group);
+                                $("#year").val(data.data[i].Song_Year);
+                                $("#type").val(data.data[i].Gene);
+                            }
+
+                        },
+                        error: function (msj, status, error) {
+                            alert("Error [" + msj.status + "] details: " + error);
+                        }
+
+                    });
+                } else {
+                    $("#id").val(0);
+                }
+
+            $("#idEdit").modal('show');
+           // alert(data);
+        }
+            function DeleteSong(data) {
+
+               // $("#deleteModel").modal('show');
+               // return;
+
+            var statusFlag = false;
+            //console.log(data);
+            jQuery.ajax({
+                url: "@Url.Action("DeleteSonbyId", "Login")" + "?songId=" + data,
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    //Load Data into popUp
+                   
+                },
+                error: function (msj, status, error) {
+                    alert("Error [" + msj.status + "] details: " + error);
+                }
+
+            });
+            location.reload('Index');
+            //showDataTable();
+            //$("#idEdit").modal('show');
+           // alert(data);
+        }
+        </script>
+    }

@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AndroidApkModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AndroidApk.dbo.App_User' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="App_User">
+    <Key>
+      <PropertyRef Name="User_ID" />
+    </Key>
+    <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Plant_Code" Type="nvarchar" MaxLength="10" />
+    <Property Name="Nick_Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="Create_By" Type="nvarchar" MaxLength="50" />
+    <Property Name="Create_DT" Type="datetime" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'AndroidApk.dbo.AppVersion' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="AppVersion">
+    <Key>
+      <PropertyRef Name="AppID" />
+    </Key>
+    <Property Name="AppID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AppName" Type="nvarchar" MaxLength="50" />
+    <Property Name="AppDescription" Type="nvarchar" MaxLength="50" />
+    <Property Name="AppRute" Type="nvarchar" MaxLength="50" />
+    <Property Name="AppLastEditBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="AppLastEditDt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_app_user_save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="in_transtype" Type="varchar" Mode="In" />
+    <Parameter Name="in_user_id" Type="int" Mode="In" />
+    <Parameter Name="in_name" Type="varchar" Mode="In" />
+    <Parameter Name="in_last_name" Type="varchar" Mode="In" />
+    <Parameter Name="in_plant_code" Type="varchar" Mode="In" />
+    <Parameter Name="in_nick_name" Type="varchar" Mode="In" />
+    <Parameter Name="in_password" Type="varchar" Mode="In" />
+    <Parameter Name="in_create_by" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="AndroidApkModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="App_User" EntityType="Self.App_User" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [App_User].[User_ID] AS [User_ID], 
+    [App_User].[Name] AS [Name], 
+    [App_User].[LastName] AS [LastName], 
+    [App_User].[Plant_Code] AS [Plant_Code], 
+    [App_User].[Nick_Name] AS [Nick_Name], 
+    [App_User].[Password] AS [Password], 
+    [App_User].[Create_By] AS [Create_By], 
+    [App_User].[Create_DT] AS [Create_DT]
+    FROM [dbo].[App_User] AS [App_User]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="AppVersion" EntityType="Self.AppVersion" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [AppVersion].[AppID] AS [AppID], 
+    [AppVersion].[AppName] AS [AppName], 
+    [AppVersion].[AppDescription] AS [AppDescription], 
+    [AppVersion].[AppRute] AS [AppRute], 
+    [AppVersion].[AppLastEditBy] AS [AppLastEditBy], 
+    [AppVersion].[AppLastEditDt] AS [AppLastEditDt]
+    FROM [dbo].[AppVersion] AS [AppVersion]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SongsDbModelStoreContainer" CdmEntityContainer="SongsDbEntities1">
+    <EntitySetMapping Name="Gene">
+      <EntityTypeMapping TypeName="SongsDbModel.Gene">
+        <MappingFragment StoreEntitySet="Gene">
+          <ScalarProperty Name="Gene_ID" ColumnName="Gene_ID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Song">
+      <EntityTypeMapping TypeName="SongsDbModel.Song">
+        <MappingFragment StoreEntitySet="Song">
+          <ScalarProperty Name="Song_ID" ColumnName="Song_ID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Song_Group" ColumnName="Song_Group" />
+          <ScalarProperty Name="Song_Year" ColumnName="Song_Year" />
+          <ScalarProperty Name="Gene" ColumnName="Gene" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_song_save" FunctionName="SongsDbModel.Store.sp_song_save" />
+    <FunctionImportMapping FunctionImportName="sp_song_select" FunctionName="SongsDbModel.Store.sp_song_select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SongsDbModel.sp_song_select_Result">
+          <ScalarProperty Name="Song_ID" ColumnName="Song_ID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Song_Group" ColumnName="Song_Group" />
+          <ScalarProperty Name="Song_Year" ColumnName="Song_Year" />
+          <ScalarProperty Name="Gene" ColumnName="Gene" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

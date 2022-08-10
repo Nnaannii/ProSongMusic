@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SongsDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Gene">
+    <Key>
+      <PropertyRef Name="Gene_ID" />
+    </Key>
+    <Property Name="Gene_ID" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Song">
+    <Key>
+      <PropertyRef Name="Song_ID" />
+    </Key>
+    <Property Name="Song_ID" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Song_Group" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Song_Year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Gene" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityContainer Name="SongsDbEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Gene" EntityType="Self.Gene" />
+    <EntitySet Name="Song" EntityType="Self.Song" />
+    <FunctionImport Name="sp_song_save">
+      <Parameter Name="trasntype" Mode="In" Type="String" />
+      <Parameter Name="song_id" Mode="In" Type="Int32" />
+      <Parameter Name="song_title" Mode="In" Type="String" />
+      <Parameter Name="song_group" Mode="In" Type="String" />
+      <Parameter Name="song_year" Mode="In" Type="String" />
+      <Parameter Name="song_gene" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_song_select" ReturnType="Collection(SongsDbModel.sp_song_select_Result)">
+      <Parameter Name="trasntype" Mode="In" Type="String" />
+      <Parameter Name="song_id" Mode="In" Type="Int32" />
+      <Parameter Name="song_title" Mode="In" Type="String" />
+      <Parameter Name="song_group" Mode="In" Type="String" />
+      <Parameter Name="song_year" Mode="In" Type="String" />
+      <Parameter Name="song_gene" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="sp_song_select_Result">
+    <Property Type="Int32" Name="Song_ID" Nullable="false" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="String" Name="Song_Group" Nullable="true" />
+    <Property Type="String" Name="Song_Year" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Gene" Nullable="true" MaxLength="50" />
+  </ComplexType>
+</Schema>

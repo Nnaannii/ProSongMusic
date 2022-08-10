@@ -1,0 +1,52 @@
+﻿.btn{
+    margin: 0 1%;
+
+}
+body {
+    background-color: #00227b;
+}
+button{
+    background-color:white;
+    
+}
+.modal-header {
+    background-color: #563d7c;
+   color:white;
+}
+.close{
+    background-color:transparent;
+    color:white;
+    border:none;
+}
+.card-header {
+    background-color: #26418f;
+    color: white;
+}
+footer{
+    color:white;
+    position:relative;
+    display:flex;
+    right:initial;
+}
+.car{
+    border:none;
+}
+.deleteheader {
+    background-color: #ab003c;
+    color:white;
+    align-content:center;
+    position:relative;
+    text-align:center;
+}
+.modal-footer{
+    align-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+@media (max-width: 600px) {
+    .table{
+        width: 100px;
+        height: 200px;
+    }
+}
